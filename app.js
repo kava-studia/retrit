@@ -1,6 +1,24 @@
 const MAX_PHONE='+79057195398';
 const MAX_WEB='https://max.ru/';
 
+// Mobile overrides load last so they reliably win over the desktop stylesheet.
+const mobileStyles=document.createElement('link');
+mobileStyles.rel='stylesheet';
+mobileStyles.href='/mobile.css?v=20260808-1';
+document.head.appendChild(mobileStyles);
+
+// Актуальная цена первого запуска.
+const PRICE='4 900 ₽';
+const priceEl=document.querySelector('.price');
+if(priceEl)priceEl.textContent=PRICE;
+const mobilePrice=document.querySelector('.mobile-buy b');
+if(mobilePrice)mobilePrice.textContent=PRICE;
+document.querySelectorAll('.hero-chips span').forEach(el=>{
+  if(el.textContent.trim()==='5 000 ₽'||el.textContent.trim()==='4 900 ₽')el.textContent=PRICE;
+});
+const description=document.querySelector('meta[name="description"]');
+if(description)description.content=description.content.replace('5 000 ₽',PRICE);
+
 // Финальные три кадра. На сайте больше не используем никакие другие фотографии.
 const FINAL_IMAGES={
   yogaWide:'/assets/final/yoga-wide.png',
@@ -15,7 +33,10 @@ function setImage(img,src,alt){
   img.decoding='async';
   img.style.width='100%';
   img.style.height='auto';
+  img.style.maxHeight='none';
   img.style.objectFit='contain';
+  img.style.position='static';
+  img.style.transform='none';
   img.addEventListener('load',()=>img.classList.add('loaded'),{once:true});
 }
 
@@ -63,5 +84,5 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
 const nav=document.querySelector('.nav');
 window.addEventListener('scroll',()=>{
-  nav.style.boxShadow=window.scrollY>40?'0 16px 48px rgba(80,65,77,.14)':'0 12px 44px rgba(80,65,77,.10)';
+  if(nav)nav.style.boxShadow=window.scrollY>40?'0 16px 48px rgba(80,65,77,.14)':'0 12px 44px rgba(80,65,77,.10)';
 },{passive:true});
