@@ -1,0 +1,27 @@
+name: Sync final retreat images
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  sync-images:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the three approved images
+        run: |
+          mkdir -p assets/final
+          curl -L --fail --retry 3 'https://at.adobe.com/MahPMNnfsIzNKqh4' -o assets/final/yoga-wide.png
+          curl -L --fail --retry 3 'https://at.adobe.com/oMJOMNB6MuFiv7bs' -o assets/final/fire.png
+          curl -L --fail --retry 3 'https://at.adobe.com/VasRe3BteMMVRHuA' -o assets/final/yoga-close.jpg
+          file assets/final/yoga-wide.png assets/final/fire.png assets/final/yoga-close.jpg
+      - name: Commit images
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/final/
+          git diff --cached --quiet && exit 0
+          git commit -m 'add final approved retreat images'
+          git push
