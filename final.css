@@ -1,0 +1,13 @@
+.no-photo-hero{padding-bottom:96px}.no-photo-hero .hero-copy{max-width:940px}.no-photo-card{display:block!important;max-width:980px;margin-left:auto;margin-right:auto}.no-photo-card .alone-copy{padding:64px 56px}.nav-links{gap:6px}
+
+@media (max-width:767px){
+  .no-photo-hero{padding:96px 0 52px}
+  .hero-chips{grid-template-columns:repeat(3,1fr)!important}
+  .no-photo-card{padding:7px!important}
+  .no-photo-card .alone-copy{padding:30px 20px 24px}
+}
+
+@media (max-width:420px){
+  .hero-chips{grid-template-columns:1fr!important}
+  .hero-chips span{min-height:42px}
+}
